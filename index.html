@@ -8,21 +8,26 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --parch: #e8d5a3;
-    --parch-light: #f0e4c4;
-    --parch-dark: #c4a86a;
-    --parch-deep: #a08040;
-    --burn: #3a2010;
-    --burn-mid: #5a3820;
-    --burn-light: #7a5030;
+    --wood-bg: #5c3a1e;
+    --wood-light: #7a5030;
+    --wood-mid: #6b4528;
+    --wood-dark: #3e2210;
+    --wood-deep: #2a1608;
+    --plank: #8b6840;
+    --plank-light: #a07848;
+    --plank-edge: #4a2a12;
+    --brass: #c9a84c;
+    --brass-light: #ddc060;
+    --brass-dark: #8a6a20;
+    --rope: #b89860;
+    --nail: #8a8a8a;
     --ink: #1a0e05;
-    --ink-mid: #3a2818;
-    --ink-light: #6a5040;
-    --ink-faded: #8a7a68;
-    --red-ink: #8b1a1a;
-    --green-ink: #2a5a1a;
-    --gold-ink: #8a6a20;
-    --water: rgba(120,100,70,0.12);
+    --ink-light: #5a4030;
+    --ink-faded: #7a6850;
+    --red-ink: #9b1a1a;
+    --green-ink: #2a6a1a;
+    --parch: #d8c8a0;
+    --parch-light: #e8dab8;
   }
 
   body {
@@ -30,125 +35,163 @@
     color: var(--ink);
     min-height: 100vh;
     -webkit-tap-highlight-color: transparent;
-    /* Parchment base */
-    background-color: var(--parch);
+    /* Wood plank background */
+    background-color: var(--wood-bg);
     background-image:
-      /* Burn marks — top */
-      radial-gradient(ellipse at 15% 0%, rgba(40,20,5,0.5) 0%, transparent 35%),
-      radial-gradient(ellipse at 85% 0%, rgba(50,25,8,0.4) 0%, transparent 30%),
-      radial-gradient(ellipse at 50% 0%, rgba(60,30,10,0.15) 0%, transparent 50%),
-      /* Burn marks — bottom */
-      radial-gradient(ellipse at 20% 100%, rgba(40,20,5,0.45) 0%, transparent 30%),
-      radial-gradient(ellipse at 75% 100%, rgba(50,25,8,0.35) 0%, transparent 35%),
-      radial-gradient(ellipse at 50% 100%, rgba(60,30,10,0.12) 0%, transparent 45%),
-      /* Burn marks — sides */
-      radial-gradient(ellipse at 0% 40%, rgba(45,22,6,0.35) 0%, transparent 25%),
-      radial-gradient(ellipse at 100% 60%, rgba(45,22,6,0.3) 0%, transparent 25%),
-      /* Water stains */
-      radial-gradient(ellipse at 30% 25%, rgba(160,130,80,0.25) 0%, rgba(160,130,80,0.08) 40%, transparent 60%),
-      radial-gradient(ellipse at 70% 55%, rgba(140,115,65,0.2) 0%, rgba(140,115,65,0.05) 45%, transparent 65%),
-      radial-gradient(ellipse at 45% 80%, rgba(150,120,70,0.15) 0%, transparent 50%),
-      /* Aging spots */
-      radial-gradient(circle at 20% 60%, rgba(130,100,50,0.15) 0%, transparent 15%),
-      radial-gradient(circle at 80% 30%, rgba(130,100,50,0.12) 0%, transparent 12%),
-      radial-gradient(circle at 55% 45%, rgba(130,100,50,0.08) 0%, transparent 20%),
-      /* Paper grain */
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px),
-      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.008) 3px, rgba(0,0,0,0.008) 6px);
+      /* Wood grain horizontal lines */
+      repeating-linear-gradient(
+        180deg,
+        transparent,
+        transparent 18px,
+        rgba(0,0,0,0.08) 18px,
+        rgba(0,0,0,0.08) 19px,
+        transparent 19px,
+        transparent 22px
+      ),
+      repeating-linear-gradient(
+        180deg,
+        transparent,
+        transparent 45px,
+        rgba(0,0,0,0.04) 45px,
+        rgba(0,0,0,0.04) 46px
+      ),
+      /* Plank separators — vertical lines */
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 119px,
+        rgba(0,0,0,0.25) 119px,
+        rgba(0,0,0,0.25) 120px,
+        rgba(0,0,0,0.12) 121px,
+        rgba(255,200,100,0.04) 122px,
+        transparent 123px
+      ),
+      /* Wood color variation */
+      linear-gradient(
+        90deg,
+        rgba(0,0,0,0.02) 0%,
+        rgba(255,200,100,0.03) 20%,
+        rgba(0,0,0,0.04) 40%,
+        rgba(255,200,100,0.02) 60%,
+        rgba(0,0,0,0.03) 80%,
+        rgba(255,200,100,0.03) 100%
+      ),
+      /* Subtle knot marks */
+      radial-gradient(ellipse at 25% 30%, rgba(60,30,10,0.15) 0%, transparent 8%),
+      radial-gradient(ellipse at 70% 65%, rgba(60,30,10,0.12) 0%, transparent 6%),
+      radial-gradient(ellipse at 45% 85%, rgba(60,30,10,0.1) 0%, transparent 10%),
+      /* Overall grain noise */
+      repeating-linear-gradient(
+        175deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.015) 3px,
+        rgba(0,0,0,0.015) 4px
+      );
   }
 
-  .container {
-    max-width: 520px; margin: 0 auto; padding: 20px 14px;
-    position: relative;
-  }
-
-  /* ─── ANCHOR WATERMARK ─── */
-  .container::before {
-    content: '⚓';
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 280px;
-    opacity: 0.035;
-    pointer-events: none;
-    z-index: 0;
-    color: var(--burn);
-  }
+  .container { max-width: 520px; margin: 0 auto; padding: 20px 14px; position: relative; }
 
   /* ─── HEADER ─── */
-  .header { text-align: center; margin-bottom: 24px; padding: 16px 0 8px; position: relative; z-index: 1; }
+  .header { text-align: center; margin-bottom: 20px; padding: 16px 0 8px; }
   .header-skull {
     font-size: 52px; line-height: 1; margin-bottom: 2px;
-    filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.3));
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
   }
   .title {
     font-family: 'Pirata One', cursive;
     font-size: 42px; font-weight: 400;
-    color: var(--burn);
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.15);
+    color: var(--brass-light);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6), 0 0 15px rgba(200,160,60,0.15);
     letter-spacing: 0.03em;
   }
   .subtitle {
-    font-family: 'IM Fell English', serif;
-    font-size: 13px; color: var(--ink-light); margin-top: 2px;
+    font-size: 13px; color: var(--rope); margin-top: 2px;
     font-style: italic; letter-spacing: 0.06em;
   }
   .round-badge {
     display: inline-flex; flex-direction: column; align-items: center;
-    background: rgba(0,0,0,0.04);
-    border: 1.5px solid var(--parch-dark); border-radius: 10px;
+    background: var(--wood-dark);
+    border: 2px solid var(--brass-dark); border-radius: 8px;
     padding: 8px 22px; margin-top: 10px;
     font-family: 'Pirata One', cursive;
-    font-size: 20px; color: var(--burn);
-    box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
+    font-size: 20px; color: var(--brass-light);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
   }
-  .cards-info {
-    font-family: 'IM Fell English', serif;
-    font-size: 12px; color: var(--ink-faded); margin-top: 2px;
-    font-style: italic;
-  }
+  .cards-info { font-size: 12px; color: var(--rope); margin-top: 2px; font-style: italic; }
 
-  /* ─── CARDS ─── */
+  /* ─── DIVIDER — rope style ─── */
+  .divider {
+    width: 120px; height: 0; margin: 10px auto 0;
+    border-top: 3px solid var(--rope);
+    position: relative;
+    opacity: 0.5;
+    border-radius: 2px;
+  }
+  .divider::before, .divider::after {
+    content: '•';
+    position: absolute; top: -9px;
+    font-size: 14px; color: var(--nail);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .divider::before { left: -4px; }
+  .divider::after { right: -4px; }
+
+  /* ─── CARDS — parchment pinned to wood ─── */
   .card {
     background:
-      radial-gradient(ellipse at 80% 20%, rgba(160,130,80,0.1) 0%, transparent 50%),
-      linear-gradient(180deg, var(--parch-light) 0%, var(--parch) 100%);
-    border: 1.5px solid var(--parch-dark);
-    border-radius: 8px; padding: 20px; margin-bottom: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1), inset 0 0 20px rgba(0,0,0,0.03);
+      radial-gradient(ellipse at 70% 30%, rgba(160,130,80,0.08) 0%, transparent 50%),
+      linear-gradient(175deg, var(--parch-light) 0%, var(--parch) 60%, #cbb888 100%);
+    border: none; border-radius: 4px;
+    padding: 22px 20px; margin-bottom: 16px;
+    box-shadow:
+      0 4px 12px rgba(0,0,0,0.35),
+      0 1px 3px rgba(0,0,0,0.2),
+      inset 0 0 20px rgba(0,0,0,0.03);
     position: relative; z-index: 1;
+    /* Slight tilt for organic feel */
+    transform: rotate(-0.3deg);
   }
-  .card::after {
+  .card:nth-child(even) { transform: rotate(0.2deg); }
+  .card:nth-child(3n) { transform: rotate(-0.15deg); }
+
+  /* Nail pins */
+  .card::before, .card::after {
     content: '';
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    border-radius: 8px;
-    pointer-events: none;
-    box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05), inset -2px -2px 6px rgba(0,0,0,0.03);
+    position: absolute; width: 10px; height: 10px;
+    background: radial-gradient(circle, #aaa 30%, #666 60%, #444 100%);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5), inset 0 -1px 1px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.2);
+    z-index: 2;
   }
+  .card::before { top: 8px; left: 10px; }
+  .card::after { top: 8px; right: 10px; }
+
   .card.done {
     background:
-      radial-gradient(ellipse at 30% 70%, rgba(140,110,60,0.12) 0%, transparent 50%),
-      linear-gradient(180deg, #dcc890 0%, #d0bc80 100%);
-    border-color: var(--burn-light);
+      radial-gradient(ellipse at 30% 60%, rgba(140,110,60,0.1) 0%, transparent 50%),
+      linear-gradient(175deg, #d4c498 0%, #c8b880 100%);
+    opacity: 0.92;
   }
-  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-top: 6px; }
   .player-name {
     font-family: 'Pirata One', cursive;
-    font-size: 23px; color: var(--burn);
+    font-size: 24px; color: var(--wood-dark);
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.3);
   }
   .score-preview { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; }
   .score-pos { color: var(--green-ink); }
   .score-neg { color: var(--red-ink); }
   .lock-badge {
-    font-size: 11px; font-weight: 400; background: rgba(139,26,26,0.1);
+    font-size: 11px; background: rgba(155,26,26,0.1);
     color: var(--red-ink); padding: 3px 10px; border-radius: 4px;
-    border: 1px solid rgba(139,26,26,0.2);
-    font-style: italic;
+    border: 1px solid rgba(155,26,26,0.2); font-style: italic;
   }
 
   /* ─── FORM ─── */
   .label {
-    display: block; font-weight: 400; color: var(--burn);
+    display: block; color: var(--wood-dark);
     margin-bottom: 10px; font-family: 'Pirata One', cursive; font-size: 22px;
   }
   .small-label {
@@ -158,214 +201,192 @@
   }
   .input {
     width: 100%; padding: 10px 14px;
-    border: 1px solid var(--parch-dark); border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.15); border-radius: 4px;
     font-size: 15px; outline: none; color: var(--ink);
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.4);
     font-family: 'IM Fell English', serif;
-    transition: border-color 0.2s;
   }
-  .input:focus { border-color: var(--burn-light); }
+  .input:focus { border-color: var(--brass-dark); background: rgba(255,255,255,0.55); }
 
   /* ─── COUNTERS ─── */
   .counter-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
   .counter-btn {
-    width: 46px; height: 46px; border-radius: 8px;
-    border: 1.5px solid var(--parch-dark);
-    background: linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0.05));
+    width: 46px; height: 46px; border-radius: 6px;
+    border: 2px solid var(--brass-dark);
+    background: linear-gradient(180deg, var(--wood-light), var(--wood-mid));
     font-size: 22px; font-weight: 600; cursor: pointer;
-    color: var(--burn);
+    color: var(--brass-light);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: all 0.15s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,200,100,0.1);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   }
-  .counter-btn:active { transform: scale(0.95); background: rgba(0,0,0,0.05); }
+  .counter-btn:active { transform: scale(0.95); }
   .counter-value {
     font-family: 'JetBrains Mono', monospace;
     font-size: 34px; font-weight: 700; min-width: 44px; text-align: center;
-    color: var(--burn);
+    color: var(--wood-dark);
   }
   .counter-btn-sm {
-    width: 38px; height: 38px; border-radius: 7px;
-    border: 1px solid var(--parch-dark);
+    width: 38px; height: 38px; border-radius: 5px;
+    border: 1.5px solid rgba(0,0,0,0.2);
     background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.05));
-    font-size: 18px; font-weight: 600; cursor: pointer; color: var(--burn);
+    font-size: 18px; font-weight: 600; cursor: pointer; color: var(--ink);
     display: flex; align-items: center; justify-content: center;
   }
-  .counter-btn-sm:active { transform: scale(0.95); }
+  .counter-btn-sm:active { transform: scale(0.95); background: rgba(0,0,0,0.06); }
   .counter-value-sm {
     font-family: 'JetBrains Mono', monospace;
     font-size: 24px; font-weight: 700; min-width: 32px; text-align: center;
     color: var(--ink);
   }
   .counter-btn-xs {
-    width: 28px; height: 28px; border-radius: 6px;
-    border: 1px solid var(--parch-dark);
-    background: rgba(255,255,255,0.15);
-    font-size: 14px; font-weight: 600; cursor: pointer; color: var(--burn);
+    width: 28px; height: 28px; border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.2);
+    font-size: 14px; font-weight: 600; cursor: pointer; color: var(--ink);
     display: flex; align-items: center; justify-content: center;
   }
   .counter-btn-xs:disabled { opacity: 0.25; cursor: not-allowed; }
   .counter-value-xs {
     font-family: 'JetBrains Mono', monospace;
     font-size: 16px; font-weight: 700; min-width: 24px; text-align: center;
-    color: var(--ink);
   }
 
   /* ─── LAYOUT ─── */
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .bonus-section {
-    margin-top: 16px; padding-top: 14px;
-    border-top: 1px dashed var(--parch-dark);
-  }
+  .bonus-section { margin-top: 16px; padding-top: 14px; border-top: 1px dashed rgba(0,0,0,0.15); }
   .bonus-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .bonus-item span { font-size: 14px; }
   .bonus-toggle {
-    padding: 11px 14px; border-radius: 7px; font-size: 14px;
+    padding: 11px 14px; border-radius: 5px; font-size: 14px;
     text-align: center; transition: all 0.2s; user-select: none; cursor: pointer;
     border: 1px solid transparent;
   }
   .bonus-toggle.active {
-    background: var(--burn); color: var(--parch-light);
-    border-color: var(--burn); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    background: var(--wood-dark); color: var(--brass-light);
+    border-color: var(--brass-dark);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
   }
-  .bonus-toggle.available { background: rgba(0,0,0,0.04); color: var(--burn); border-color: var(--parch-dark); }
-  .bonus-toggle.unavailable { background: rgba(0,0,0,0.02); color: var(--ink-faded); cursor: not-allowed; border-color: rgba(0,0,0,0.06); }
+  .bonus-toggle.available { background: rgba(0,0,0,0.05); color: var(--ink); border-color: rgba(0,0,0,0.12); }
+  .bonus-toggle.unavailable { background: rgba(0,0,0,0.02); color: rgba(0,0,0,0.25); cursor: not-allowed; }
 
   .summary-row { display: flex; gap: 16px; font-size: 14px; color: var(--ink-light); flex-wrap: wrap; }
   .edit-btn {
     margin-top: 12px; padding: 7px 16px;
-    border: 1px dashed var(--parch-dark); border-radius: 6px;
+    border: 1px dashed rgba(0,0,0,0.2); border-radius: 4px;
     background: transparent; font-size: 13px;
-    color: var(--ink-light); cursor: pointer;
+    color: var(--ink-faded); cursor: pointer;
     font-family: 'IM Fell English', serif; font-style: italic;
   }
-  .edit-btn:active { background: rgba(0,0,0,0.03); }
-  .limit-hint {
-    font-size: 11px; color: var(--burn-light); font-style: italic;
-    text-align: center; margin-top: 4px;
-  }
+  .limit-hint { font-size: 11px; color: var(--brass-dark); font-style: italic; text-align: center; margin-top: 4px; }
 
   /* ─── BUTTONS ─── */
   .primary-btn {
-    width: 100%; padding: 14px; border: none; border-radius: 8px;
-    background: linear-gradient(135deg, var(--burn), #4a2a12);
-    color: var(--parch-light); font-size: 17px; cursor: pointer;
+    width: 100%; padding: 14px; border: none; border-radius: 6px;
+    background: linear-gradient(180deg, var(--wood-mid), var(--wood-dark));
+    color: var(--brass-light); font-size: 17px; cursor: pointer;
     margin-top: 20px; font-family: 'Pirata One', cursive;
     letter-spacing: 0.03em;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    transition: all 0.2s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,200,100,0.08);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border: 1.5px solid var(--brass-dark);
   }
   .primary-btn:active { transform: scale(0.98); }
   .primary-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .secondary-btn {
     flex: 1; padding: 14px;
-    border: 1.5px solid var(--parch-dark); border-radius: 8px;
-    background: rgba(255,255,255,0.15);
-    color: var(--ink-mid); font-size: 15px; cursor: pointer;
+    border: 1.5px solid var(--plank-edge); border-radius: 6px;
+    background: linear-gradient(180deg, var(--wood-light), var(--wood-bg));
+    color: var(--rope); font-size: 15px; cursor: pointer;
     font-family: 'IM Fell English', serif;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
   }
   .next-round-btn {
     width: 100%; padding: 16px;
-    border: 2px solid var(--burn);
-    border-radius: 8px;
-    background: rgba(58,32,16,0.08);
-    color: var(--burn); font-size: 21px; cursor: pointer;
+    border: 2px solid var(--brass);
+    border-radius: 6px;
+    background: linear-gradient(180deg, var(--wood-mid), var(--wood-dark));
+    color: var(--brass-light); font-size: 21px; cursor: pointer;
     margin-top: 6px; margin-bottom: 20px;
-    font-family: 'Pirata One', cursive; letter-spacing: 0.03em;
-    transition: all 0.2s;
+    font-family: 'Pirata One', cursive;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,200,100,0.08);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
-  .next-round-btn:active { transform: scale(0.98); background: rgba(58,32,16,0.15); }
+  .next-round-btn:active { transform: scale(0.98); }
 
-  /* ─── SCOREBOARD ─── */
-  .mini-scoreboard { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; flex-wrap: wrap; align-items: center; position: relative; z-index: 1; }
+  /* ─── SCOREBOARD — small wood plaques ─── */
+  .mini-scoreboard { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; flex-wrap: wrap; align-items: center; }
   .mini-score-item {
     display: flex; flex-direction: column; align-items: center;
-    background: rgba(0,0,0,0.04);
-    border: 1px solid var(--parch-dark); border-radius: 8px;
+    background: linear-gradient(180deg, var(--wood-light), var(--wood-mid));
+    border: 1px solid var(--plank-edge); border-radius: 6px;
     padding: 8px 12px; min-width: 58px; flex: 1;
+    box-shadow: inset 0 1px 0 rgba(255,200,100,0.08), 0 2px 4px rgba(0,0,0,0.2);
   }
   .mini-name {
-    font-size: 10px; color: var(--ink-light);
+    font-size: 10px; color: var(--rope);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 68px;
     text-transform: uppercase; letter-spacing: 0.06em; font-style: italic;
   }
   .mini-score {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 20px; font-weight: 700; color: var(--burn);
+    font-size: 20px; font-weight: 700; color: var(--brass-light);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
   .recap-btn {
-    width: 40px; height: 50px; border-radius: 8px;
-    border: 1px solid var(--parch-dark); background: rgba(0,0,0,0.03);
+    width: 40px; height: 50px; border-radius: 6px;
+    border: 1px solid var(--plank-edge);
+    background: linear-gradient(180deg, var(--wood-light), var(--wood-mid));
     font-size: 18px; cursor: pointer; display: flex;
     align-items: center; justify-content: center; flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
-  /* ─── CONSTRAINTS ─── */
-  .constraints-bar { display: flex; gap: 6px; margin-bottom: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  /* ─── CONSTRAINTS — brass plate style ─── */
+  .constraints-bar { display: flex; gap: 6px; margin-bottom: 14px; justify-content: center; flex-wrap: wrap; }
   .constraint-chip {
-    font-size: 12px; color: var(--ink-light);
-    background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 6px; padding: 5px 10px;
+    font-size: 12px; color: var(--parch);
+    background: linear-gradient(180deg, rgba(60,35,15,0.85), rgba(40,20,8,0.9));
+    border: 1px solid var(--brass-dark); border-radius: 4px;
+    padding: 5px 10px;
     display: flex; align-items: center; gap: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,200,100,0.06);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
   }
-  .constraint-chip strong { color: var(--ink-mid); }
-  .constraint-chip.full { background: rgba(139,26,26,0.08); border-color: rgba(139,26,26,0.15); }
-  .constraint-chip.full strong { color: var(--red-ink); }
+  .constraint-chip strong { color: var(--brass-light); }
+  .constraint-chip.full { border-color: var(--red-ink); }
+  .constraint-chip.full strong { color: #e05050; }
 
   /* ─── TABLE ─── */
-  .section-title {
-    font-family: 'Pirata One', cursive;
-    font-size: 24px; color: var(--burn); margin-bottom: 16px;
-  }
+  .section-title { font-family: 'Pirata One', cursive; font-size: 24px; color: var(--wood-dark); margin-bottom: 16px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th {
     text-align: center; padding: 10px 6px;
-    border-bottom: 2px solid var(--parch-dark);
+    border-bottom: 2px solid rgba(0,0,0,0.15);
     font-size: 11px; color: var(--ink-light);
-    text-transform: uppercase; letter-spacing: 0.08em;
-    font-style: italic;
+    text-transform: uppercase; letter-spacing: 0.08em; font-style: italic;
   }
   td { text-align: center; padding: 10px 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .table-wrap { overflow-x: auto; }
 
   /* ─── PODIUM ─── */
-  .podium-row {
-    display: flex; align-items: center; padding: 14px 18px;
-    border-radius: 8px; margin-bottom: 6px;
-    border: 1px solid transparent;
-  }
-  .podium-row.gold { background: rgba(180,140,40,0.12); border-color: rgba(180,140,40,0.3); }
+  .podium-row { display: flex; align-items: center; padding: 14px 18px; border-radius: 6px; margin-bottom: 6px; border: 1px solid transparent; }
+  .podium-row.gold { background: rgba(200,160,40,0.12); border-color: rgba(200,160,40,0.25); }
   .podium-row.silver { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.08); }
-  .podium-row.bronze { background: rgba(160,100,40,0.08); border-color: rgba(160,100,40,0.15); }
+  .podium-row.bronze { background: rgba(180,110,40,0.08); border-color: rgba(180,110,40,0.15); }
   .podium-rank { font-size: 22px; margin-right: 14px; width: 32px; }
-  .podium-name { flex: 1; font-size: 18px; font-family: 'Pirata One', cursive; color: var(--burn); }
-  .podium-score {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 18px; font-weight: 700; color: var(--burn);
-  }
-  .btn-row { display: flex; gap: 12px; margin-top: 8px; position: relative; z-index: 1; }
+  .podium-name { flex: 1; font-size: 18px; font-family: 'Pirata One', cursive; color: var(--wood-dark); }
+  .podium-score { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; color: var(--wood-dark); }
+  .btn-row { display: flex; gap: 12px; margin-top: 8px; }
 
-  /* ─── DECORATIVE ─── */
-  .divider {
-    width: 80px; height: 0; margin: 8px auto 0;
-    border-top: 1px solid var(--parch-dark);
-    position: relative;
-  }
-  .divider::after {
+  /* ─── ANCHOR watermark ─── */
+  .container::before {
     content: '⚓';
-    position: absolute; top: -10px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 16px; background: var(--parch);
-    padding: 0 8px; color: var(--ink-faded);
-  }
-
-  /* ─── WATER RING STAIN on cards (subtle) ─── */
-  .card:nth-child(odd)::before {
-    content: '';
-    position: absolute; bottom: -15px; right: -10px;
-    width: 80px; height: 80px; border-radius: 50%;
-    border: 2px solid rgba(140,110,60,0.08);
-    pointer-events: none;
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 250px; opacity: 0.03;
+    pointer-events: none; z-index: 0;
+    color: #000;
   }
 </style>
 </head>
@@ -374,9 +395,7 @@
 <script>
 const TOTAL_ROUNDS=10,MAX_PIRATES=5,MAX_MERMAIDS=2;
 const BONUS_PIRATE=30,BONUS_SKULL_KING=40,BONUS_MERMAID=20;
-
 let state={phase:'setup',playerCount:2,playerNames:['Joueur 1','Joueur 2','Joueur 3','Joueur 4','Joueur 5','Joueur 6'],currentRound:1,roundData:{},history:[],showRecap:false};
-
 function activeNames(){return state.playerNames.slice(0,state.playerCount);}
 function freshPlayer(){return{bid:'',tricks:'',bonusPirates:0,bonusSkullKing:false,bonusMermaids:0,submitted:false};}
 function calcScore(bid,tricks,round,bp,bsk,bm){if(bid===tricks){if(bid===0)return round*10;return bid*20+bp*BONUS_PIRATE+(bsk?BONUS_SKULL_KING:0)+bm*BONUS_MERMAID;}if(bid===0)return-(round*10);return-Math.abs(bid-tricks)*10;}
@@ -396,31 +415,18 @@ function submitPlayer(n){state.roundData[n].submitted=true;render();}
 function editPlayer(n){state.roundData[n].submitted=false;render();}
 function nextRound(){const sc={};activeNames().forEach(n=>{sc[n]={...state.roundData[n],score:scoreFor(n,state.currentRound)};});state.history.push(sc);if(state.currentRound<TOTAL_ROUNDS){state.currentRound++;const rd={};activeNames().forEach(n=>rd[n]=freshPlayer());state.roundData=rd;}else state.phase='end';render();}
 function resetGame(){state.phase='setup';state.currentRound=1;state.roundData={};state.history=[];state.showRecap=false;render();}
-
 function h(tag,attrs,...ch){const el=document.createElement(tag);if(attrs)Object.entries(attrs).forEach(([k,v])=>{if(k==='className')el.className=v;else if(k.startsWith('on'))el.addEventListener(k.slice(2).toLowerCase(),v);else if(k==='disabled'){if(v)el.setAttribute('disabled','');}else if(k==='innerHTML')el.innerHTML=v;else el.setAttribute(k,v);});ch.flat().forEach(c=>{if(c!=null)el.appendChild(typeof c==='string'?document.createTextNode(c):c);});return el;}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
 function render(){const app=document.getElementById('app');app.innerHTML='';if(state.phase==='setup')renderSetup(app);else if(state.showRecap||state.phase==='end')renderRecap(app);else renderPlay(app);}
 
 function renderSetup(app){
-  app.appendChild(h('div',{className:'header'},
-    h('div',{className:'header-skull'},'💀'),
-    h('h1',{className:'title'},'Skull King'),
-    h('p',{className:'subtitle'},'Compteur de points'),
-    h('div',{className:'divider'})
-  ));
+  app.appendChild(h('div',{className:'header'},h('div',{className:'header-skull'},'💀'),h('h1',{className:'title'},'Skull King'),h('p',{className:'subtitle'},'Compteur de points'),h('div',{className:'divider'})));
   const card=h('div',{className:'card'});
   card.appendChild(h('label',{className:'label'},'Nombre de moussaillons'));
-  card.appendChild(h('div',{className:'counter-row'},
-    h('button',{className:'counter-btn',onClick:()=>{state.playerCount=Math.max(2,state.playerCount-1);render();}},'−'),
-    h('span',{className:'counter-value'},''+state.playerCount),
-    h('button',{className:'counter-btn',onClick:()=>{state.playerCount=Math.min(6,state.playerCount+1);render();}},'+')
-  ));
+  card.appendChild(h('div',{className:'counter-row'},h('button',{className:'counter-btn',onClick:()=>{state.playerCount=Math.max(2,state.playerCount-1);render();}},'−'),h('span',{className:'counter-value'},''+state.playerCount),h('button',{className:'counter-btn',onClick:()=>{state.playerCount=Math.min(6,state.playerCount+1);render();}},'+') ));
   const inputs=h('div',{style:'margin-top:24px'});
   for(let i=0;i<state.playerCount;i++){const idx=i;const wrap=h('div',{style:'margin-bottom:14px'});wrap.appendChild(h('label',{className:'small-label'},'⚓ Pirate '+(i+1)));const inp=h('input',{className:'input',value:state.playerNames[i]});inp.addEventListener('input',e=>{state.playerNames[idx]=e.target.value;});wrap.appendChild(inp);inputs.appendChild(wrap);}
-  card.appendChild(inputs);
-  card.appendChild(h('button',{className:'primary-btn',onClick:startGame},'⚔️  Hisser les voiles !'));
-  app.appendChild(card);
+  card.appendChild(inputs);card.appendChild(h('button',{className:'primary-btn',onClick:startGame},'⚔️  Hisser les voiles !'));app.appendChild(card);
 }
 
 function renderRecap(app){
@@ -430,7 +436,7 @@ function renderRecap(app){
   const tc=h('div',{className:'card table-wrap'});tc.appendChild(h('h2',{className:'section-title'},'📜 Journal de bord'));
   let t='<table><thead><tr><th>#</th>';names.forEach(n=>t+='<th>'+esc(n)+'</th>');t+='</tr></thead><tbody>';
   state.history.forEach((round,ri)=>{t+='<tr><td style="color:var(--ink-light);font-family:Pirata One,cursive;font-size:16px">'+(ri+1)+'</td>';names.forEach(name=>{const d=round[name];const sc=d?.score||0;const col=sc>=0?'var(--green-ink)':'var(--red-ink)';let det='Mise '+d?.bid+' · Plis '+d?.tricks;if(d?.bonusPirates>0)det+=' · 🏴‍☠️×'+d.bonusPirates;if(d?.bonusMermaids>0)det+=' · 🧜‍♀️×'+d.bonusMermaids;if(d?.bonusSkullKing)det+=' · 💀';t+='<td><div style="color:'+col+';font-weight:700;font-family:JetBrains Mono,monospace;font-size:14px">'+(sc>0?'+':'')+sc+'</div><div style="font-size:11px;color:var(--ink-faded)">'+det+'</div></td>';});t+='</tr>';});
-  t+='<tr><td style="font-weight:700;color:var(--burn);font-family:Pirata One,cursive;font-size:16px">Total</td>';names.forEach(n=>t+='<td style="font-weight:700;font-size:16px;color:var(--burn);font-family:JetBrains Mono,monospace">'+cumulScore(n)+'</td>');t+='</tr></tbody></table>';
+  t+='<tr><td style="font-weight:700;color:var(--wood-dark);font-family:Pirata One,cursive;font-size:16px">Total</td>';names.forEach(n=>t+='<td style="font-weight:700;font-size:16px;color:var(--wood-dark);font-family:JetBrains Mono,monospace">'+cumulScore(n)+'</td>');t+='</tr></tbody></table>';
   tc.innerHTML+=t;app.appendChild(tc);
   const br=h('div',{className:'btn-row'});if(state.phase!=='end')br.appendChild(h('button',{className:'secondary-btn',onClick:()=>{state.showRecap=false;render();}},'← Retour'));br.appendChild(h('button',{className:'primary-btn',style:'margin-top:0',onClick:resetGame},'⚔️  Nouvelle bataille'));app.appendChild(br);
 }
@@ -439,7 +445,6 @@ function renderPlay(app){
   const names=activeNames();const allSub=names.every(n=>state.roundData[n]?.submitted);
   app.appendChild(h('div',{className:'header'},h('div',{className:'header-skull'},'💀'),h('h1',{className:'title'},'Skull King'),h('div',{className:'round-badge'},document.createTextNode('Manche '+state.currentRound+' / '+TOTAL_ROUNDS),h('span',{className:'cards-info'},state.currentRound+' carte'+(state.currentRound>1?'s':'')))));
   const sb=h('div',{className:'mini-scoreboard'});names.forEach(n=>{sb.appendChild(h('div',{className:'mini-score-item'},h('span',{className:'mini-name'},n),h('span',{className:'mini-score'},''+cumulScore(n))));});if(state.history.length>0)sb.appendChild(h('button',{className:'recap-btn',onClick:()=>{state.showRecap=true;render();}},'📜'));app.appendChild(sb);
-
   const totalT=names.reduce((s,n)=>{const d=state.roundData[n];return s+(d?.submitted&&d.tricks!==''?parseInt(d.tricks):0);},0);
   const totalP=names.reduce((s,n)=>{const d=state.roundData[n];return s+(d?.submitted?d.bonusPirates||0:0);},0);
   const totalM=names.reduce((s,n)=>{const d=state.roundData[n];return s+(d?.submitted?d.bonusMermaids||0:0);},0);
@@ -467,7 +472,6 @@ function renderPlay(app){
   });
   if(allSub){const txt=state.currentRound<TOTAL_ROUNDS?'Manche suivante  ⚔️':'Voir les résultats  🏆';app.appendChild(h('button',{className:'next-round-btn',onClick:nextRound},txt));}
 }
-
 render();
 </script>
 </body>
