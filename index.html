@@ -4,517 +4,469 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>☠️ Skull King — Compteur de points</title>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --parch: #e8d5a3;
+    --parch-light: #f0e4c4;
+    --parch-dark: #c4a86a;
+    --parch-deep: #a08040;
+    --burn: #3a2010;
+    --burn-mid: #5a3820;
+    --burn-light: #7a5030;
+    --ink: #1a0e05;
+    --ink-mid: #3a2818;
+    --ink-light: #6a5040;
+    --ink-faded: #8a7a68;
+    --red-ink: #8b1a1a;
+    --green-ink: #2a5a1a;
+    --gold-ink: #8a6a20;
+    --water: rgba(120,100,70,0.12);
+  }
+
   body {
-    font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
-    color: #1e293b;
-    background: #f8fafc;
+    font-family: 'IM Fell English', Georgia, serif;
+    color: var(--ink);
     min-height: 100vh;
     -webkit-tap-highlight-color: transparent;
+    /* Parchment base */
+    background-color: var(--parch);
+    background-image:
+      /* Burn marks — top */
+      radial-gradient(ellipse at 15% 0%, rgba(40,20,5,0.5) 0%, transparent 35%),
+      radial-gradient(ellipse at 85% 0%, rgba(50,25,8,0.4) 0%, transparent 30%),
+      radial-gradient(ellipse at 50% 0%, rgba(60,30,10,0.15) 0%, transparent 50%),
+      /* Burn marks — bottom */
+      radial-gradient(ellipse at 20% 100%, rgba(40,20,5,0.45) 0%, transparent 30%),
+      radial-gradient(ellipse at 75% 100%, rgba(50,25,8,0.35) 0%, transparent 35%),
+      radial-gradient(ellipse at 50% 100%, rgba(60,30,10,0.12) 0%, transparent 45%),
+      /* Burn marks — sides */
+      radial-gradient(ellipse at 0% 40%, rgba(45,22,6,0.35) 0%, transparent 25%),
+      radial-gradient(ellipse at 100% 60%, rgba(45,22,6,0.3) 0%, transparent 25%),
+      /* Water stains */
+      radial-gradient(ellipse at 30% 25%, rgba(160,130,80,0.25) 0%, rgba(160,130,80,0.08) 40%, transparent 60%),
+      radial-gradient(ellipse at 70% 55%, rgba(140,115,65,0.2) 0%, rgba(140,115,65,0.05) 45%, transparent 65%),
+      radial-gradient(ellipse at 45% 80%, rgba(150,120,70,0.15) 0%, transparent 50%),
+      /* Aging spots */
+      radial-gradient(circle at 20% 60%, rgba(130,100,50,0.15) 0%, transparent 15%),
+      radial-gradient(circle at 80% 30%, rgba(130,100,50,0.12) 0%, transparent 12%),
+      radial-gradient(circle at 55% 45%, rgba(130,100,50,0.08) 0%, transparent 20%),
+      /* Paper grain */
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.008) 3px, rgba(0,0,0,0.008) 6px);
   }
-  .container { max-width: 520px; margin: 0 auto; padding: 16px 12px; }
-  .header { text-align: center; margin-bottom: 20px; }
-  .title { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: #0f172a; }
-  .subtitle { font-size: 14px; color: #64748b; margin-top: 4px; font-weight: 500; }
+
+  .container {
+    max-width: 520px; margin: 0 auto; padding: 20px 14px;
+    position: relative;
+  }
+
+  /* ─── ANCHOR WATERMARK ─── */
+  .container::before {
+    content: '⚓';
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 280px;
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 0;
+    color: var(--burn);
+  }
+
+  /* ─── HEADER ─── */
+  .header { text-align: center; margin-bottom: 24px; padding: 16px 0 8px; position: relative; z-index: 1; }
+  .header-skull {
+    font-size: 52px; line-height: 1; margin-bottom: 2px;
+    filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.3));
+  }
+  .title {
+    font-family: 'Pirata One', cursive;
+    font-size: 42px; font-weight: 400;
+    color: var(--burn);
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.15);
+    letter-spacing: 0.03em;
+  }
+  .subtitle {
+    font-family: 'IM Fell English', serif;
+    font-size: 13px; color: var(--ink-light); margin-top: 2px;
+    font-style: italic; letter-spacing: 0.06em;
+  }
   .round-badge {
     display: inline-flex; flex-direction: column; align-items: center;
-    background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
-    padding: 8px 20px; margin-top: 8px; font-size: 15px; font-weight: 700; color: #334155;
+    background: rgba(0,0,0,0.04);
+    border: 1.5px solid var(--parch-dark); border-radius: 10px;
+    padding: 8px 22px; margin-top: 10px;
+    font-family: 'Pirata One', cursive;
+    font-size: 20px; color: var(--burn);
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
   }
-  .cards-info { font-size: 11px; font-weight: 500; color: #94a3b8; margin-top: 2px; }
+  .cards-info {
+    font-family: 'IM Fell English', serif;
+    font-size: 12px; color: var(--ink-faded); margin-top: 2px;
+    font-style: italic;
+  }
+
+  /* ─── CARDS ─── */
   .card {
-    background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
-    padding: 20px; margin-bottom: 12px;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(160,130,80,0.1) 0%, transparent 50%),
+      linear-gradient(180deg, var(--parch-light) 0%, var(--parch) 100%);
+    border: 1.5px solid var(--parch-dark);
+    border-radius: 8px; padding: 20px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1), inset 0 0 20px rgba(0,0,0,0.03);
+    position: relative; z-index: 1;
   }
-  .card.done { background: #f8fafc; border-color: #cbd5e1; }
-  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .player-name { font-size: 17px; font-weight: 700; color: #0f172a; }
-  .score-preview { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .score-pos { color: #16a34a; }
-  .score-neg { color: #dc2626; }
+  .card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 8px;
+    pointer-events: none;
+    box-shadow: inset 3px 3px 8px rgba(0,0,0,0.05), inset -2px -2px 6px rgba(0,0,0,0.03);
+  }
+  .card.done {
+    background:
+      radial-gradient(ellipse at 30% 70%, rgba(140,110,60,0.12) 0%, transparent 50%),
+      linear-gradient(180deg, #dcc890 0%, #d0bc80 100%);
+    border-color: var(--burn-light);
+  }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .player-name {
+    font-family: 'Pirata One', cursive;
+    font-size: 23px; color: var(--burn);
+  }
+  .score-preview { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; }
+  .score-pos { color: var(--green-ink); }
+  .score-neg { color: var(--red-ink); }
   .lock-badge {
-    font-size: 11px; font-weight: 600; background: #fef2f2; color: #dc2626;
-    padding: 3px 8px; border-radius: 6px;
+    font-size: 11px; font-weight: 400; background: rgba(139,26,26,0.1);
+    color: var(--red-ink); padding: 3px 10px; border-radius: 4px;
+    border: 1px solid rgba(139,26,26,0.2);
+    font-style: italic;
   }
-  .label { display: block; font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 8px; }
+
+  /* ─── FORM ─── */
+  .label {
+    display: block; font-weight: 400; color: var(--burn);
+    margin-bottom: 10px; font-family: 'Pirata One', cursive; font-size: 22px;
+  }
   .small-label {
-    display: block; font-size: 12px; font-weight: 600; color: #64748b;
-    margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em;
+    display: block; font-size: 11px; color: var(--ink-light);
+    margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.12em;
+    font-style: italic;
   }
   .input {
-    width: 100%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 10px;
-    font-size: 15px; outline: none; color: #1e293b; background: #f8fafc;
+    width: 100%; padding: 10px 14px;
+    border: 1px solid var(--parch-dark); border-radius: 6px;
+    font-size: 15px; outline: none; color: var(--ink);
+    background: rgba(255,255,255,0.25);
+    font-family: 'IM Fell English', serif;
+    transition: border-color 0.2s;
   }
-  .counter-row { display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .input:focus { border-color: var(--burn-light); }
+
+  /* ─── COUNTERS ─── */
+  .counter-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
   .counter-btn {
-    width: 44px; height: 44px; border-radius: 12px; border: 1px solid #e2e8f0;
-    background: #fff; font-size: 20px; font-weight: 600; cursor: pointer; color: #334155;
+    width: 46px; height: 46px; border-radius: 8px;
+    border: 1.5px solid var(--parch-dark);
+    background: linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0.05));
+    font-size: 22px; font-weight: 600; cursor: pointer;
+    color: var(--burn);
     display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.15s;
   }
-  .counter-value { font-size: 28px; font-weight: 800; min-width: 40px; text-align: center; font-variant-numeric: tabular-nums; }
+  .counter-btn:active { transform: scale(0.95); background: rgba(0,0,0,0.05); }
+  .counter-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 34px; font-weight: 700; min-width: 44px; text-align: center;
+    color: var(--burn);
+  }
   .counter-btn-sm {
-    width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0;
-    background: #fff; font-size: 18px; font-weight: 600; cursor: pointer; color: #334155;
+    width: 38px; height: 38px; border-radius: 7px;
+    border: 1px solid var(--parch-dark);
+    background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.05));
+    font-size: 18px; font-weight: 600; cursor: pointer; color: var(--burn);
     display: flex; align-items: center; justify-content: center;
   }
-  .counter-value-sm { font-size: 22px; font-weight: 700; min-width: 30px; text-align: center; font-variant-numeric: tabular-nums; }
+  .counter-btn-sm:active { transform: scale(0.95); }
+  .counter-value-sm {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px; font-weight: 700; min-width: 32px; text-align: center;
+    color: var(--ink);
+  }
   .counter-btn-xs {
-    width: 28px; height: 28px; border-radius: 8px; border: 1px solid #e2e8f0;
-    background: #fff; font-size: 14px; font-weight: 600; cursor: pointer; color: #334155;
+    width: 28px; height: 28px; border-radius: 6px;
+    border: 1px solid var(--parch-dark);
+    background: rgba(255,255,255,0.15);
+    font-size: 14px; font-weight: 600; cursor: pointer; color: var(--burn);
     display: flex; align-items: center; justify-content: center;
   }
-  .counter-btn-xs:disabled { opacity: 0.3; cursor: not-allowed; }
-  .counter-value-xs { font-size: 16px; font-weight: 700; min-width: 24px; text-align: center; }
+  .counter-btn-xs:disabled { opacity: 0.25; cursor: not-allowed; }
+  .counter-value-xs {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px; font-weight: 700; min-width: 24px; text-align: center;
+    color: var(--ink);
+  }
+
+  /* ─── LAYOUT ─── */
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .bonus-section { margin-top: 16px; padding-top: 12px; border-top: 1px solid #f1f5f9; }
+  .bonus-section {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px dashed var(--parch-dark);
+  }
   .bonus-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .bonus-item span { font-size: 13px; }
+  .bonus-item span { font-size: 14px; }
   .bonus-toggle {
-    padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600;
-    text-align: center; transition: all 0.15s; user-select: none; cursor: pointer;
+    padding: 11px 14px; border-radius: 7px; font-size: 14px;
+    text-align: center; transition: all 0.2s; user-select: none; cursor: pointer;
+    border: 1px solid transparent;
   }
-  .summary-row { display: flex; gap: 16px; font-size: 13px; color: #64748b; flex-wrap: wrap; }
+  .bonus-toggle.active {
+    background: var(--burn); color: var(--parch-light);
+    border-color: var(--burn); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  .bonus-toggle.available { background: rgba(0,0,0,0.04); color: var(--burn); border-color: var(--parch-dark); }
+  .bonus-toggle.unavailable { background: rgba(0,0,0,0.02); color: var(--ink-faded); cursor: not-allowed; border-color: rgba(0,0,0,0.06); }
+
+  .summary-row { display: flex; gap: 16px; font-size: 14px; color: var(--ink-light); flex-wrap: wrap; }
   .edit-btn {
-    margin-top: 10px; padding: 6px 14px; border: 1px solid #e2e8f0; border-radius: 8px;
-    background: transparent; font-size: 13px; color: #64748b; cursor: pointer; font-weight: 500;
+    margin-top: 12px; padding: 7px 16px;
+    border: 1px dashed var(--parch-dark); border-radius: 6px;
+    background: transparent; font-size: 13px;
+    color: var(--ink-light); cursor: pointer;
+    font-family: 'IM Fell English', serif; font-style: italic;
   }
-  .limit-hint { font-size: 11px; color: #f59e0b; font-weight: 600; text-align: center; margin-top: 4px; }
+  .edit-btn:active { background: rgba(0,0,0,0.03); }
+  .limit-hint {
+    font-size: 11px; color: var(--burn-light); font-style: italic;
+    text-align: center; margin-top: 4px;
+  }
+
+  /* ─── BUTTONS ─── */
   .primary-btn {
-    width: 100%; padding: 14px; border: none; border-radius: 12px; background: #0f172a;
-    color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 20px;
+    width: 100%; padding: 14px; border: none; border-radius: 8px;
+    background: linear-gradient(135deg, var(--burn), #4a2a12);
+    color: var(--parch-light); font-size: 17px; cursor: pointer;
+    margin-top: 20px; font-family: 'Pirata One', cursive;
+    letter-spacing: 0.03em;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    transition: all 0.2s;
   }
-  .primary-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .primary-btn:active { transform: scale(0.98); }
+  .primary-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .secondary-btn {
-    flex: 1; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff;
-    color: #334155; font-size: 15px; font-weight: 600; cursor: pointer;
+    flex: 1; padding: 14px;
+    border: 1.5px solid var(--parch-dark); border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    color: var(--ink-mid); font-size: 15px; cursor: pointer;
+    font-family: 'IM Fell English', serif;
   }
   .next-round-btn {
-    width: 100%; padding: 16px; border: none; border-radius: 14px; background: #0f172a;
-    color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 4px; margin-bottom: 20px;
+    width: 100%; padding: 16px;
+    border: 2px solid var(--burn);
+    border-radius: 8px;
+    background: rgba(58,32,16,0.08);
+    color: var(--burn); font-size: 21px; cursor: pointer;
+    margin-top: 6px; margin-bottom: 20px;
+    font-family: 'Pirata One', cursive; letter-spacing: 0.03em;
+    transition: all 0.2s;
   }
-  .mini-scoreboard { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; flex-wrap: wrap; align-items: center; }
+  .next-round-btn:active { transform: scale(0.98); background: rgba(58,32,16,0.15); }
+
+  /* ─── SCOREBOARD ─── */
+  .mini-scoreboard { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; flex-wrap: wrap; align-items: center; position: relative; z-index: 1; }
   .mini-score-item {
-    display: flex; flex-direction: column; align-items: center; background: #f8fafc;
-    border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 14px; min-width: 60px; flex: 1;
+    display: flex; flex-direction: column; align-items: center;
+    background: rgba(0,0,0,0.04);
+    border: 1px solid var(--parch-dark); border-radius: 8px;
+    padding: 8px 12px; min-width: 58px; flex: 1;
   }
   .mini-name {
-    font-size: 11px; font-weight: 600; color: #64748b; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; max-width: 70px;
+    font-size: 10px; color: var(--ink-light);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 68px;
+    text-transform: uppercase; letter-spacing: 0.06em; font-style: italic;
   }
-  .mini-score { font-size: 18px; font-weight: 800; color: #0f172a; font-variant-numeric: tabular-nums; }
+  .mini-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px; font-weight: 700; color: var(--burn);
+  }
   .recap-btn {
-    width: 40px; height: 46px; border-radius: 10px; border: 1px solid #e2e8f0;
-    background: #f8fafc; font-size: 18px; cursor: pointer; display: flex;
+    width: 40px; height: 50px; border-radius: 8px;
+    border: 1px solid var(--parch-dark); background: rgba(0,0,0,0.03);
+    font-size: 18px; cursor: pointer; display: flex;
     align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .constraints-bar { display: flex; gap: 6px; margin-bottom: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* ─── CONSTRAINTS ─── */
+  .constraints-bar { display: flex; gap: 6px; margin-bottom: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
   .constraint-chip {
-    font-size: 12px; font-weight: 600; color: #475569; background: #f1f5f9;
-    border: 1px solid #e2e8f0; border-radius: 8px; padding: 5px 10px;
+    font-size: 12px; color: var(--ink-light);
+    background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px; padding: 5px 10px;
     display: flex; align-items: center; gap: 4px;
   }
-  .constraint-chip.full { background: #fef2f2; }
-  .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #0f172a; }
+  .constraint-chip strong { color: var(--ink-mid); }
+  .constraint-chip.full { background: rgba(139,26,26,0.08); border-color: rgba(139,26,26,0.15); }
+  .constraint-chip.full strong { color: var(--red-ink); }
+
+  /* ─── TABLE ─── */
+  .section-title {
+    font-family: 'Pirata One', cursive;
+    font-size: 24px; color: var(--burn); margin-bottom: 16px;
+  }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th {
-    text-align: center; padding: 8px 6px; border-bottom: 2px solid #e2e8f0;
-    font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em;
+    text-align: center; padding: 10px 6px;
+    border-bottom: 2px solid var(--parch-dark);
+    font-size: 11px; color: var(--ink-light);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-style: italic;
   }
-  td { text-align: center; padding: 10px 6px; border-bottom: 1px solid #f1f5f9; }
-  .podium-row { display: flex; align-items: center; padding: 12px 16px; border-radius: 12px; margin-bottom: 6px; }
-  .podium-rank { font-size: 20px; margin-right: 12px; width: 32px; }
-  .podium-name { flex: 1; font-size: 15px; font-weight: 700; }
-  .podium-score { font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; color: #0f172a; }
-  .btn-row { display: flex; gap: 12px; margin-top: 8px; }
+  td { text-align: center; padding: 10px 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .table-wrap { overflow-x: auto; }
+
+  /* ─── PODIUM ─── */
+  .podium-row {
+    display: flex; align-items: center; padding: 14px 18px;
+    border-radius: 8px; margin-bottom: 6px;
+    border: 1px solid transparent;
+  }
+  .podium-row.gold { background: rgba(180,140,40,0.12); border-color: rgba(180,140,40,0.3); }
+  .podium-row.silver { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.08); }
+  .podium-row.bronze { background: rgba(160,100,40,0.08); border-color: rgba(160,100,40,0.15); }
+  .podium-rank { font-size: 22px; margin-right: 14px; width: 32px; }
+  .podium-name { flex: 1; font-size: 18px; font-family: 'Pirata One', cursive; color: var(--burn); }
+  .podium-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px; font-weight: 700; color: var(--burn);
+  }
+  .btn-row { display: flex; gap: 12px; margin-top: 8px; position: relative; z-index: 1; }
+
+  /* ─── DECORATIVE ─── */
+  .divider {
+    width: 80px; height: 0; margin: 8px auto 0;
+    border-top: 1px solid var(--parch-dark);
+    position: relative;
+  }
+  .divider::after {
+    content: '⚓';
+    position: absolute; top: -10px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px; background: var(--parch);
+    padding: 0 8px; color: var(--ink-faded);
+  }
+
+  /* ─── WATER RING STAIN on cards (subtle) ─── */
+  .card:nth-child(odd)::before {
+    content: '';
+    position: absolute; bottom: -15px; right: -10px;
+    width: 80px; height: 80px; border-radius: 50%;
+    border: 2px solid rgba(140,110,60,0.08);
+    pointer-events: none;
+  }
 </style>
 </head>
 <body>
 <div class="container" id="app"></div>
 <script>
-const TOTAL_ROUNDS = 10, MAX_PIRATES = 5, MAX_MERMAIDS = 2;
-const BONUS_PIRATE = 30, BONUS_SKULL_KING = 40, BONUS_MERMAID = 20;
+const TOTAL_ROUNDS=10,MAX_PIRATES=5,MAX_MERMAIDS=2;
+const BONUS_PIRATE=30,BONUS_SKULL_KING=40,BONUS_MERMAID=20;
 
-let state = {
-  phase: 'setup',
-  playerCount: 2,
-  playerNames: ['Joueur 1','Joueur 2','Joueur 3','Joueur 4','Joueur 5','Joueur 6'],
-  currentRound: 1,
-  roundData: {},
-  history: [],
-  showRecap: false,
-};
+let state={phase:'setup',playerCount:2,playerNames:['Joueur 1','Joueur 2','Joueur 3','Joueur 4','Joueur 5','Joueur 6'],currentRound:1,roundData:{},history:[],showRecap:false};
 
-function activeNames() { return state.playerNames.slice(0, state.playerCount); }
+function activeNames(){return state.playerNames.slice(0,state.playerCount);}
+function freshPlayer(){return{bid:'',tricks:'',bonusPirates:0,bonusSkullKing:false,bonusMermaids:0,submitted:false};}
+function calcScore(bid,tricks,round,bp,bsk,bm){if(bid===tricks){if(bid===0)return round*10;return bid*20+bp*BONUS_PIRATE+(bsk?BONUS_SKULL_KING:0)+bm*BONUS_MERMAID;}if(bid===0)return-(round*10);return-Math.abs(bid-tricks)*10;}
+function usedTricks(ex){return activeNames().reduce((s,n)=>{if(n===ex)return s;const d=state.roundData[n];return s+(d&&d.submitted&&d.tricks!==''?parseInt(d.tricks):0);},0);}
+function usedPirates(ex){return activeNames().reduce((s,n)=>{if(n===ex)return s;const d=state.roundData[n];return s+(d&&d.submitted?d.bonusPirates||0:0);},0);}
+function usedMermaids(ex){return activeNames().reduce((s,n)=>{if(n===ex)return s;const d=state.roundData[n];return s+(d&&d.submitted?d.bonusMermaids||0:0);},0);}
+function usedSkullKing(ex){return activeNames().some(n=>{if(n===ex)return false;const d=state.roundData[n];return d&&d.submitted&&d.bonusSkullKing;});}
+function maxTricksFor(n){return Math.max(0,state.currentRound-usedTricks(n));}
+function maxPiratesFor(n){const g=MAX_PIRATES-usedPirates(n);const d=state.roundData[n];const t=d&&d.tricks!==''?parseInt(d.tricks):0;return Math.max(0,Math.min(g,t*(state.playerCount-1)));}
+function maxMermaidsFor(n){const g=MAX_MERMAIDS-usedMermaids(n);const d=state.roundData[n];const t=d&&d.tricks!==''?parseInt(d.tricks):0;return Math.max(0,Math.min(g,t*(state.playerCount-1)));}
+function skullKingAvail(n){return!usedSkullKing(n);}
+function scoreFor(n,r){const d=state.roundData[n];if(!d||d.bid===''||d.tricks==='')return 0;return calcScore(parseInt(d.bid),parseInt(d.tricks),r,d.bonusPirates,d.bonusSkullKing,d.bonusMermaids);}
+function cumulScore(n){return state.history.reduce((s,r)=>s+(r[n]?.score||0),0);}
+function updateField(n,f,v){const d=state.roundData[n];d[f]=v;if(f==='tricks'){const t=v===''?0:parseInt(v);const cap=t*(state.playerCount-1);d.bonusPirates=Math.min(d.bonusPirates,cap,MAX_PIRATES-usedPirates(n));d.bonusMermaids=Math.min(d.bonusMermaids,cap,MAX_MERMAIDS-usedMermaids(n));}render();}
+function startGame(){const rd={};activeNames().forEach(n=>rd[n]=freshPlayer());state.roundData=rd;state.currentRound=1;state.history=[];state.phase='play';render();}
+function submitPlayer(n){state.roundData[n].submitted=true;render();}
+function editPlayer(n){state.roundData[n].submitted=false;render();}
+function nextRound(){const sc={};activeNames().forEach(n=>{sc[n]={...state.roundData[n],score:scoreFor(n,state.currentRound)};});state.history.push(sc);if(state.currentRound<TOTAL_ROUNDS){state.currentRound++;const rd={};activeNames().forEach(n=>rd[n]=freshPlayer());state.roundData=rd;}else state.phase='end';render();}
+function resetGame(){state.phase='setup';state.currentRound=1;state.roundData={};state.history=[];state.showRecap=false;render();}
 
-function freshPlayer() { return { bid:'', tricks:'', bonusPirates:0, bonusSkullKing:false, bonusMermaids:0, submitted:false }; }
+function h(tag,attrs,...ch){const el=document.createElement(tag);if(attrs)Object.entries(attrs).forEach(([k,v])=>{if(k==='className')el.className=v;else if(k.startsWith('on'))el.addEventListener(k.slice(2).toLowerCase(),v);else if(k==='disabled'){if(v)el.setAttribute('disabled','');}else if(k==='innerHTML')el.innerHTML=v;else el.setAttribute(k,v);});ch.flat().forEach(c=>{if(c!=null)el.appendChild(typeof c==='string'?document.createTextNode(c):c);});return el;}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-function calcScore(bid, tricks, round, bp, bsk, bm) {
-  if (bid === tricks) {
-    if (bid === 0) return round * 10;
-    return bid * 20 + bp * BONUS_PIRATE + (bsk ? BONUS_SKULL_KING : 0) + bm * BONUS_MERMAID;
-  }
-  if (bid === 0) return -(round * 10);
-  return -Math.abs(bid - tricks) * 10;
-}
+function render(){const app=document.getElementById('app');app.innerHTML='';if(state.phase==='setup')renderSetup(app);else if(state.showRecap||state.phase==='end')renderRecap(app);else renderPlay(app);}
 
-function usedTricks(exclude) {
-  return activeNames().reduce((s,n) => {
-    if (n === exclude) return s;
-    const d = state.roundData[n];
-    return s + (d && d.submitted && d.tricks !== '' ? parseInt(d.tricks) : 0);
-  }, 0);
-}
-function usedPirates(exclude) {
-  return activeNames().reduce((s,n) => {
-    if (n === exclude) return s;
-    const d = state.roundData[n];
-    return s + (d && d.submitted ? d.bonusPirates||0 : 0);
-  }, 0);
-}
-function usedMermaids(exclude) {
-  return activeNames().reduce((s,n) => {
-    if (n === exclude) return s;
-    const d = state.roundData[n];
-    return s + (d && d.submitted ? d.bonusMermaids||0 : 0);
-  }, 0);
-}
-function usedSkullKing(exclude) {
-  return activeNames().some(n => {
-    if (n === exclude) return false;
-    const d = state.roundData[n];
-    return d && d.submitted && d.bonusSkullKing;
-  });
-}
-function maxTricksFor(name) { return Math.max(0, state.currentRound - usedTricks(name)); }
-function maxPiratesFor(name) {
-  const glob = MAX_PIRATES - usedPirates(name);
-  const d = state.roundData[name];
-  const t = d && d.tricks !== '' ? parseInt(d.tricks) : 0;
-  return Math.max(0, Math.min(glob, t * (state.playerCount - 1)));
-}
-function maxMermaidsFor(name) {
-  const glob = MAX_MERMAIDS - usedMermaids(name);
-  const d = state.roundData[name];
-  const t = d && d.tricks !== '' ? parseInt(d.tricks) : 0;
-  return Math.max(0, Math.min(glob, t * (state.playerCount - 1)));
-}
-function skullKingAvail(name) { return !usedSkullKing(name); }
-
-function scoreFor(name, round) {
-  const d = state.roundData[name];
-  if (!d || d.bid==='' || d.tricks==='') return 0;
-  return calcScore(parseInt(d.bid), parseInt(d.tricks), round, d.bonusPirates, d.bonusSkullKing, d.bonusMermaids);
-}
-function cumulScore(name) {
-  return state.history.reduce((s,r) => s + (r[name]?.score||0), 0);
-}
-
-function updateField(name, field, value) {
-  const d = state.roundData[name];
-  d[field] = value;
-  if (field === 'tricks') {
-    const t = value === '' ? 0 : parseInt(value);
-    const cap = t * (state.playerCount - 1);
-    d.bonusPirates = Math.min(d.bonusPirates, cap, MAX_PIRATES - usedPirates(name));
-    d.bonusMermaids = Math.min(d.bonusMermaids, cap, MAX_MERMAIDS - usedMermaids(name));
-  }
-  render();
-}
-
-function startGame() {
-  const rd = {};
-  activeNames().forEach(n => rd[n] = freshPlayer());
-  state.roundData = rd;
-  state.currentRound = 1;
-  state.history = [];
-  state.phase = 'play';
-  render();
-}
-
-function submitPlayer(name) { state.roundData[name].submitted = true; render(); }
-function editPlayer(name) { state.roundData[name].submitted = false; render(); }
-
-function nextRound() {
-  const scores = {};
-  activeNames().forEach(n => { scores[n] = { ...state.roundData[n], score: scoreFor(n, state.currentRound) }; });
-  state.history.push(scores);
-  if (state.currentRound < TOTAL_ROUNDS) {
-    state.currentRound++;
-    const rd = {};
-    activeNames().forEach(n => rd[n] = freshPlayer());
-    state.roundData = rd;
-  } else {
-    state.phase = 'end';
-  }
-  render();
-}
-
-function resetGame() {
-  state.phase = 'setup'; state.currentRound = 1;
-  state.roundData = {}; state.history = []; state.showRecap = false;
-  render();
-}
-
-function h(tag, attrs, ...children) {
-  const el = document.createElement(tag);
-  if (attrs) Object.entries(attrs).forEach(([k,v]) => {
-    if (k === 'className') el.className = v;
-    else if (k.startsWith('on')) el.addEventListener(k.slice(2).toLowerCase(), v);
-    else if (k === 'disabled') { if (v) el.setAttribute('disabled',''); }
-    else if (k === 'innerHTML') el.innerHTML = v;
-    else el.setAttribute(k, v);
-  });
-  children.flat().forEach(c => {
-    if (c == null) return;
-    el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
-  });
-  return el;
-}
-
-function render() {
-  const app = document.getElementById('app');
-  app.innerHTML = '';
-  if (state.phase === 'setup') renderSetup(app);
-  else if (state.showRecap || state.phase === 'end') renderRecap(app);
-  else renderPlay(app);
-}
-
-// ═══ SETUP ═══
-function renderSetup(app) {
-  app.appendChild(h('div', {className:'header'},
-    h('h1', {className:'title'}, '☠️ Skull King'),
-    h('p', {className:'subtitle'}, 'Compteur de points')
+function renderSetup(app){
+  app.appendChild(h('div',{className:'header'},
+    h('div',{className:'header-skull'},'💀'),
+    h('h1',{className:'title'},'Skull King'),
+    h('p',{className:'subtitle'},'Compteur de points'),
+    h('div',{className:'divider'})
   ));
-  const card = h('div', {className:'card'});
-  card.appendChild(h('label', {className:'label'}, 'Nombre de joueurs'));
-  card.appendChild(h('div', {className:'counter-row'},
-    h('button', {className:'counter-btn', onClick:()=>{ state.playerCount = Math.max(2, state.playerCount-1); render(); }}, '−'),
-    h('span', {className:'counter-value'}, ''+state.playerCount),
-    h('button', {className:'counter-btn', onClick:()=>{ state.playerCount = Math.min(6, state.playerCount+1); render(); }}, '+')
+  const card=h('div',{className:'card'});
+  card.appendChild(h('label',{className:'label'},'Nombre de moussaillons'));
+  card.appendChild(h('div',{className:'counter-row'},
+    h('button',{className:'counter-btn',onClick:()=>{state.playerCount=Math.max(2,state.playerCount-1);render();}},'−'),
+    h('span',{className:'counter-value'},''+state.playerCount),
+    h('button',{className:'counter-btn',onClick:()=>{state.playerCount=Math.min(6,state.playerCount+1);render();}},'+')
   ));
-  const inputs = h('div', {style:'margin-top:24px'});
-  for (let i = 0; i < state.playerCount; i++) {
-    const idx = i;
-    const wrap = h('div', {style:'margin-bottom:12px'});
-    wrap.appendChild(h('label', {className:'small-label'}, 'Joueur '+(i+1)));
-    const inp = h('input', {className:'input', value: state.playerNames[i]});
-    inp.addEventListener('input', e => { state.playerNames[idx] = e.target.value; });
-    wrap.appendChild(inp);
-    inputs.appendChild(wrap);
-  }
+  const inputs=h('div',{style:'margin-top:24px'});
+  for(let i=0;i<state.playerCount;i++){const idx=i;const wrap=h('div',{style:'margin-bottom:14px'});wrap.appendChild(h('label',{className:'small-label'},'⚓ Pirate '+(i+1)));const inp=h('input',{className:'input',value:state.playerNames[i]});inp.addEventListener('input',e=>{state.playerNames[idx]=e.target.value;});wrap.appendChild(inp);inputs.appendChild(wrap);}
   card.appendChild(inputs);
-  card.appendChild(h('button', {className:'primary-btn', onClick: startGame}, 'Commencer la partie'));
+  card.appendChild(h('button',{className:'primary-btn',onClick:startGame},'⚔️  Hisser les voiles !'));
   app.appendChild(card);
 }
 
-// ═══ RECAP / END ═══
-function renderRecap(app) {
-  const names = activeNames();
-  const sorted = [...names].sort((a,b) => cumulScore(b) - cumulScore(a));
-  app.appendChild(h('div', {className:'header'},
-    h('h1', {className:'title'}, '☠️ Skull King'),
-    h('p', {className:'subtitle'}, state.phase==='end' ? 'Partie terminée !' : 'Récapitulatif')
-  ));
-  if (state.phase === 'end') {
-    const card = h('div', {className:'card'});
-    card.appendChild(h('h2', {className:'section-title'}, '🏆 Classement final'));
-    sorted.forEach((name, i) => {
-      const bg = i===0?'#fef3c7':i===1?'#f3f4f6':i===2?'#fed7aa':'transparent';
-      const rank = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
-      const row = h('div', {className:'podium-row', style:'background:'+bg},
-        h('span', {className:'podium-rank'}, rank),
-        h('span', {className:'podium-name'}, name),
-        h('span', {className:'podium-score'}, cumulScore(name)+' pts')
-      );
-      card.appendChild(row);
-    });
-    app.appendChild(card);
-  }
-  // Table
-  const tableCard = h('div', {className:'card table-wrap'});
-  tableCard.appendChild(h('h2', {className:'section-title'}, 'Détail par manche'));
-  let tableHTML = '<table><thead><tr><th>#</th>';
-  names.forEach(n => tableHTML += '<th>'+esc(n)+'</th>');
-  tableHTML += '</tr></thead><tbody>';
-  state.history.forEach((round, ri) => {
-    tableHTML += '<tr><td>'+(ri+1)+'</td>';
-    names.forEach(name => {
-      const d = round[name];
-      const sc = d?.score||0;
-      const col = sc >= 0 ? '#16a34a' : '#dc2626';
-      let detail = 'Mise '+d?.bid+' · Plis '+d?.tricks;
-      if (d?.bonusPirates > 0) detail += ' · 🏴‍☠️×'+d.bonusPirates;
-      if (d?.bonusMermaids > 0) detail += ' · 🧜‍♀️×'+d.bonusMermaids;
-      if (d?.bonusSkullKing) detail += ' · 💀';
-      tableHTML += '<td><div style="color:'+col+';font-weight:600;font-variant-numeric:tabular-nums">'+(sc>0?'+':'')+sc+'</div><div style="font-size:11px;color:#94a3b8">'+detail+'</div></td>';
-    });
-    tableHTML += '</tr>';
-  });
-  tableHTML += '<tr><td style="font-weight:700">Total</td>';
-  names.forEach(n => tableHTML += '<td style="font-weight:700;font-size:16px">'+cumulScore(n)+'</td>');
-  tableHTML += '</tr></tbody></table>';
-  tableCard.innerHTML += tableHTML;
-  app.appendChild(tableCard);
-  const btnRow = h('div', {className:'btn-row'});
-  if (state.phase !== 'end') {
-    btnRow.appendChild(h('button', {className:'secondary-btn', onClick:()=>{ state.showRecap=false; render(); }}, '← Retour'));
-  }
-  btnRow.appendChild(h('button', {className:'primary-btn', style:'margin-top:0', onClick: resetGame}, 'Nouvelle partie'));
-  app.appendChild(btnRow);
+function renderRecap(app){
+  const names=activeNames();const sorted=[...names].sort((a,b)=>cumulScore(b)-cumulScore(a));
+  app.appendChild(h('div',{className:'header'},h('div',{className:'header-skull'},'💀'),h('h1',{className:'title'},'Skull King'),h('p',{className:'subtitle'},state.phase==='end'?'La bataille est terminée !':'Récapitulatif'),h('div',{className:'divider'})));
+  if(state.phase==='end'){const card=h('div',{className:'card'});card.appendChild(h('h2',{className:'section-title'},'🏆 Capitaine des Sept Mers'));sorted.forEach((name,i)=>{const cls=i===0?'gold':i===1?'silver':i===2?'bronze':'';const rank=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';card.appendChild(h('div',{className:'podium-row '+cls},h('span',{className:'podium-rank'},rank),h('span',{className:'podium-name'},name),h('span',{className:'podium-score'},cumulScore(name)+' pts')));});app.appendChild(card);}
+  const tc=h('div',{className:'card table-wrap'});tc.appendChild(h('h2',{className:'section-title'},'📜 Journal de bord'));
+  let t='<table><thead><tr><th>#</th>';names.forEach(n=>t+='<th>'+esc(n)+'</th>');t+='</tr></thead><tbody>';
+  state.history.forEach((round,ri)=>{t+='<tr><td style="color:var(--ink-light);font-family:Pirata One,cursive;font-size:16px">'+(ri+1)+'</td>';names.forEach(name=>{const d=round[name];const sc=d?.score||0;const col=sc>=0?'var(--green-ink)':'var(--red-ink)';let det='Mise '+d?.bid+' · Plis '+d?.tricks;if(d?.bonusPirates>0)det+=' · 🏴‍☠️×'+d.bonusPirates;if(d?.bonusMermaids>0)det+=' · 🧜‍♀️×'+d.bonusMermaids;if(d?.bonusSkullKing)det+=' · 💀';t+='<td><div style="color:'+col+';font-weight:700;font-family:JetBrains Mono,monospace;font-size:14px">'+(sc>0?'+':'')+sc+'</div><div style="font-size:11px;color:var(--ink-faded)">'+det+'</div></td>';});t+='</tr>';});
+  t+='<tr><td style="font-weight:700;color:var(--burn);font-family:Pirata One,cursive;font-size:16px">Total</td>';names.forEach(n=>t+='<td style="font-weight:700;font-size:16px;color:var(--burn);font-family:JetBrains Mono,monospace">'+cumulScore(n)+'</td>');t+='</tr></tbody></table>';
+  tc.innerHTML+=t;app.appendChild(tc);
+  const br=h('div',{className:'btn-row'});if(state.phase!=='end')br.appendChild(h('button',{className:'secondary-btn',onClick:()=>{state.showRecap=false;render();}},'← Retour'));br.appendChild(h('button',{className:'primary-btn',style:'margin-top:0',onClick:resetGame},'⚔️  Nouvelle bataille'));app.appendChild(br);
 }
 
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function renderPlay(app){
+  const names=activeNames();const allSub=names.every(n=>state.roundData[n]?.submitted);
+  app.appendChild(h('div',{className:'header'},h('div',{className:'header-skull'},'💀'),h('h1',{className:'title'},'Skull King'),h('div',{className:'round-badge'},document.createTextNode('Manche '+state.currentRound+' / '+TOTAL_ROUNDS),h('span',{className:'cards-info'},state.currentRound+' carte'+(state.currentRound>1?'s':'')))));
+  const sb=h('div',{className:'mini-scoreboard'});names.forEach(n=>{sb.appendChild(h('div',{className:'mini-score-item'},h('span',{className:'mini-name'},n),h('span',{className:'mini-score'},''+cumulScore(n))));});if(state.history.length>0)sb.appendChild(h('button',{className:'recap-btn',onClick:()=>{state.showRecap=true;render();}},'📜'));app.appendChild(sb);
 
-// ═══ PLAY ═══
-function renderPlay(app) {
-  const names = activeNames();
-  const allSub = names.every(n => state.roundData[n]?.submitted);
-
-  app.appendChild(h('div', {className:'header'},
-    h('h1', {className:'title'}, '☠️ Skull King'),
-    h('div', {className:'round-badge'},
-      document.createTextNode('Manche '+state.currentRound+' / '+TOTAL_ROUNDS),
-      h('span', {className:'cards-info'}, state.currentRound+' carte'+(state.currentRound>1?'s':''))
-    )
-  ));
-
-  // Mini scoreboard
-  const sb = h('div', {className:'mini-scoreboard'});
-  names.forEach(n => {
-    sb.appendChild(h('div', {className:'mini-score-item'},
-      h('span', {className:'mini-name'}, n),
-      h('span', {className:'mini-score'}, ''+cumulScore(n))
-    ));
-  });
-  if (state.history.length > 0) {
-    sb.appendChild(h('button', {className:'recap-btn', onClick:()=>{ state.showRecap=true; render(); }}, '📊'));
-  }
-  app.appendChild(sb);
-
-  // Constraints bar
-  const totalT = names.reduce((s,n)=>{ const d=state.roundData[n]; return s+(d?.submitted&&d.tricks!==''?parseInt(d.tricks):0);},0);
-  const totalP = names.reduce((s,n)=>{ const d=state.roundData[n]; return s+(d?.submitted?d.bonusPirates||0:0);},0);
-  const totalM = names.reduce((s,n)=>{ const d=state.roundData[n]; return s+(d?.submitted?d.bonusMermaids||0:0);},0);
-  const skTaken = names.some(n=> state.roundData[n]?.submitted && state.roundData[n]?.bonusSkullKing);
-  const cb = h('div', {className:'constraints-bar'});
-  cb.appendChild(h('div',{className:'constraint-chip'+(totalT>=state.currentRound?' full':''), innerHTML:'🃏 Plis <strong>'+totalT+'/'+state.currentRound+'</strong>'}));
-  cb.appendChild(h('div',{className:'constraint-chip'+(totalP>=MAX_PIRATES?' full':''), innerHTML:'🏴‍☠️ <strong>'+totalP+'/'+MAX_PIRATES+'</strong>'}));
-  cb.appendChild(h('div',{className:'constraint-chip'+(totalM>=MAX_MERMAIDS?' full':''), innerHTML:'🧜‍♀️ <strong>'+totalM+'/'+MAX_MERMAIDS+'</strong>'}));
-  cb.appendChild(h('div',{className:'constraint-chip'+(skTaken?' full':''), innerHTML:'💀 <strong>'+(skTaken?'1':'0')+'/1</strong>'}));
+  const totalT=names.reduce((s,n)=>{const d=state.roundData[n];return s+(d?.submitted&&d.tricks!==''?parseInt(d.tricks):0);},0);
+  const totalP=names.reduce((s,n)=>{const d=state.roundData[n];return s+(d?.submitted?d.bonusPirates||0:0);},0);
+  const totalM=names.reduce((s,n)=>{const d=state.roundData[n];return s+(d?.submitted?d.bonusMermaids||0:0);},0);
+  const skT=names.some(n=>state.roundData[n]?.submitted&&state.roundData[n]?.bonusSkullKing);
+  const cb=h('div',{className:'constraints-bar'});
+  cb.appendChild(h('div',{className:'constraint-chip'+(totalT>=state.currentRound?' full':''),innerHTML:'🃏 Plis <strong>'+totalT+'/'+state.currentRound+'</strong>'}));
+  cb.appendChild(h('div',{className:'constraint-chip'+(totalP>=MAX_PIRATES?' full':''),innerHTML:'🏴‍☠️ <strong>'+totalP+'/'+MAX_PIRATES+'</strong>'}));
+  cb.appendChild(h('div',{className:'constraint-chip'+(totalM>=MAX_MERMAIDS?' full':''),innerHTML:'🧜‍♀️ <strong>'+totalM+'/'+MAX_MERMAIDS+'</strong>'}));
+  cb.appendChild(h('div',{className:'constraint-chip'+(skT?' full':''),innerHTML:'💀 <strong>'+(skT?'1':'0')+'/1</strong>'}));
   app.appendChild(cb);
 
-  // Player cards
-  names.forEach(name => {
-    const data = state.roundData[name] || freshPlayer();
-    const maxT = maxTricksFor(name);
-    const maxP = maxPiratesFor(name);
-    const maxM = maxMermaidsFor(name);
-    const skAvail = skullKingAvail(name);
-
-    if (data.submitted) {
-      const score = scoreFor(name, state.currentRound);
-      const card = h('div', {className:'card done'});
-      card.appendChild(h('div', {className:'card-header'},
-        h('span', {className:'player-name'}, name),
-        h('span', {className:'score-preview '+(score>=0?'score-pos':'score-neg')}, (score>0?'+':'')+score+' pts')
-      ));
-      const sr = h('div', {className:'summary-row'});
-      sr.appendChild(h('span', null, 'Mise : '+data.bid));
-      sr.appendChild(h('span', null, 'Plis : '+data.tricks));
-      if (data.bonusPirates > 0) sr.appendChild(h('span', null, '🏴‍☠️ ×'+data.bonusPirates));
-      if (data.bonusMermaids > 0) sr.appendChild(h('span', null, '🧜‍♀️ ×'+data.bonusMermaids));
-      if (data.bonusSkullKing) sr.appendChild(h('span', null, '💀 capturé'));
-      card.appendChild(sr);
-      card.appendChild(h('button', {className:'edit-btn', onClick:()=>editPlayer(name)}, 'Modifier'));
-      app.appendChild(card);
-      return;
-    }
-
-    const bidVal = data.bid === '' ? null : parseInt(data.bid);
-    const tricksVal = data.tricks === '' ? null : parseInt(data.tricks);
-    const bidMatches = bidVal !== null && tricksVal !== null && bidVal === tricksVal;
-    const showBonus = bidVal > 0 && bidMatches;
-    const canSubmit = data.bid !== '' && data.tricks !== '';
-
-    const card = h('div', {className:'card'});
-    const hdr = h('div', {className:'card-header'}, h('span', {className:'player-name'}, name));
-    if (maxT === 0) hdr.appendChild(h('span', {className:'lock-badge'}, '0 pli dispo'));
-    card.appendChild(hdr);
-
-    const fieldRow = h('div', {className:'field-row'});
-    // Bid
-    const bidDiv = h('div', null);
-    bidDiv.appendChild(h('label', {className:'small-label'}, 'Mise'));
-    bidDiv.appendChild(h('div', {className:'counter-row'},
-      h('button', {className:'counter-btn-sm', onClick:()=>updateField(name,'bid',Math.max(0,(bidVal||0)-1).toString())}, '−'),
-      h('span', {className:'counter-value-sm'}, data.bid===''?'-':data.bid),
-      h('button', {className:'counter-btn-sm', onClick:()=>updateField(name,'bid',Math.min(state.currentRound,(bidVal||0)+1).toString())}, '+')
-    ));
-    fieldRow.appendChild(bidDiv);
-    // Tricks
-    const tDiv = h('div', null);
-    tDiv.appendChild(h('label', {className:'small-label'}, 'Plis gagnés'));
-    tDiv.appendChild(h('div', {className:'counter-row'},
-      h('button', {className:'counter-btn-sm', onClick:()=>updateField(name,'tricks',Math.max(0,(tricksVal||0)-1).toString())}, '−'),
-      h('span', {className:'counter-value-sm'}, data.tricks===''?'-':data.tricks),
-      h('button', {className:'counter-btn-sm', onClick:()=>updateField(name,'tricks',Math.min(maxT,(tricksVal||0)+1).toString())}, '+')
-    ));
-    if (maxT < state.currentRound) tDiv.appendChild(h('div', {className:'limit-hint'}, 'Max '+maxT+' restant'+(maxT>1?'s':'')));
-    fieldRow.appendChild(tDiv);
-    card.appendChild(fieldRow);
-
-    // Bonus
-    if (showBonus) {
-      const bs = h('div', {className:'bonus-section'});
-      bs.appendChild(h('label', {className:'small-label'}, 'Bonus'));
-      // Pirates
-      const pi = h('div', {className:'bonus-item'});
-      pi.appendChild(h('span', null, '🏴‍☠️ Pirates capturés'));
-      pi.appendChild(h('div', {className:'counter-row'},
-        h('button', {className:'counter-btn-xs', onClick:()=>updateField(name,'bonusPirates',Math.max(0,data.bonusPirates-1))}, '−'),
-        h('span', {className:'counter-value-xs'}, ''+data.bonusPirates),
-        h('button', {className:'counter-btn-xs', disabled: data.bonusPirates>=maxP, onClick:()=>{ if(data.bonusPirates<maxP) updateField(name,'bonusPirates',data.bonusPirates+1); }}, '+')
-      ));
-      bs.appendChild(pi);
-      if (maxP < MAX_PIRATES) bs.appendChild(h('div',{className:'limit-hint'},'Max '+maxP+' pirate'+(maxP>1?'s':'')+' dispo'));
-
-      // Mermaids
-      const mi = h('div', {className:'bonus-item'});
-      mi.appendChild(h('span', null, '🧜‍♀️ Sirènes capturées'));
-      mi.appendChild(h('div', {className:'counter-row'},
-        h('button', {className:'counter-btn-xs', onClick:()=>updateField(name,'bonusMermaids',Math.max(0,data.bonusMermaids-1))}, '−'),
-        h('span', {className:'counter-value-xs'}, ''+data.bonusMermaids),
-        h('button', {className:'counter-btn-xs', disabled: data.bonusMermaids>=maxM, onClick:()=>{ if(data.bonusMermaids<maxM) updateField(name,'bonusMermaids',data.bonusMermaids+1); }}, '+')
-      ));
-      bs.appendChild(mi);
-      if (maxM < MAX_MERMAIDS) bs.appendChild(h('div',{className:'limit-hint'},'Max '+maxM+' sirène'+(maxM>1?'s':'')+' dispo'));
-
-      // Skull King
-      const skBg = data.bonusSkullKing ? '#1e293b' : skAvail ? '#f1f5f9' : '#f9fafb';
-      const skCol = data.bonusSkullKing ? '#fff' : skAvail ? '#334155' : '#cbd5e1';
-      const skCur = (skAvail || data.bonusSkullKing) ? 'pointer' : 'not-allowed';
-      const skText = '💀 Skull King capturé' + (!skAvail && !data.bonusSkullKing ? ' (déjà pris)' : '');
-      const skDiv = h('div', {className:'bonus-toggle', style:'margin-top:10px;background:'+skBg+';color:'+skCol+';cursor:'+skCur, onClick:()=>{
-        if (data.bonusSkullKing) updateField(name,'bonusSkullKing',false);
-        else if (skAvail) updateField(name,'bonusSkullKing',true);
-      }}, skText);
-      bs.appendChild(skDiv);
-      card.appendChild(bs);
-    }
-
-    const submitBtn = h('button', {className:'primary-btn', style:'margin-top:14px', disabled:!canSubmit, onClick:()=>submitPlayer(name)}, 'Valider');
-    card.appendChild(submitBtn);
-    app.appendChild(card);
+  names.forEach(name=>{
+    const data=state.roundData[name]||freshPlayer();const maxT=maxTricksFor(name),maxP=maxPiratesFor(name),maxM=maxMermaidsFor(name),skAv=skullKingAvail(name);
+    if(data.submitted){const score=scoreFor(name,state.currentRound);const card=h('div',{className:'card done'});card.appendChild(h('div',{className:'card-header'},h('span',{className:'player-name'},name),h('span',{className:'score-preview '+(score>=0?'score-pos':'score-neg')},(score>0?'+':'')+score+' pts')));const sr=h('div',{className:'summary-row'});sr.appendChild(h('span',null,'Mise : '+data.bid));sr.appendChild(h('span',null,'Plis : '+data.tricks));if(data.bonusPirates>0)sr.appendChild(h('span',null,'🏴‍☠️ ×'+data.bonusPirates));if(data.bonusMermaids>0)sr.appendChild(h('span',null,'🧜‍♀️ ×'+data.bonusMermaids));if(data.bonusSkullKing)sr.appendChild(h('span',null,'💀 capturé'));card.appendChild(sr);card.appendChild(h('button',{className:'edit-btn',onClick:()=>editPlayer(name)},'Modifier'));app.appendChild(card);return;}
+    const bV=data.bid===''?null:parseInt(data.bid),tV=data.tricks===''?null:parseInt(data.tricks);const match=bV!==null&&tV!==null&&bV===tV,showB=bV>0&&match,canS=data.bid!==''&&data.tricks!=='';
+    const card=h('div',{className:'card'});const hdr=h('div',{className:'card-header'},h('span',{className:'player-name'},name));if(maxT===0)hdr.appendChild(h('span',{className:'lock-badge'},'0 pli dispo'));card.appendChild(hdr);
+    const fr=h('div',{className:'field-row'});
+    const bidD=h('div',null);bidD.appendChild(h('label',{className:'small-label'},'Mise'));bidD.appendChild(h('div',{className:'counter-row'},h('button',{className:'counter-btn-sm',onClick:()=>updateField(name,'bid',Math.max(0,(bV||0)-1).toString())},'−'),h('span',{className:'counter-value-sm'},data.bid===''?'-':data.bid),h('button',{className:'counter-btn-sm',onClick:()=>updateField(name,'bid',Math.min(state.currentRound,(bV||0)+1).toString())},'+')));fr.appendChild(bidD);
+    const tD=h('div',null);tD.appendChild(h('label',{className:'small-label'},'Plis gagnés'));tD.appendChild(h('div',{className:'counter-row'},h('button',{className:'counter-btn-sm',onClick:()=>updateField(name,'tricks',Math.max(0,(tV||0)-1).toString())},'−'),h('span',{className:'counter-value-sm'},data.tricks===''?'-':data.tricks),h('button',{className:'counter-btn-sm',onClick:()=>updateField(name,'tricks',Math.min(maxT,(tV||0)+1).toString())},'+')));if(maxT<state.currentRound)tD.appendChild(h('div',{className:'limit-hint'},'Max '+maxT+' restant'+(maxT>1?'s':'')));fr.appendChild(tD);card.appendChild(fr);
+    if(showB){const bs=h('div',{className:'bonus-section'});bs.appendChild(h('label',{className:'small-label'},'Butin'));
+      const pi=h('div',{className:'bonus-item'});pi.appendChild(h('span',null,'🏴‍☠️ Pirates capturés'));pi.appendChild(h('div',{className:'counter-row'},h('button',{className:'counter-btn-xs',onClick:()=>updateField(name,'bonusPirates',Math.max(0,data.bonusPirates-1))},'−'),h('span',{className:'counter-value-xs'},''+data.bonusPirates),h('button',{className:'counter-btn-xs',disabled:data.bonusPirates>=maxP,onClick:()=>{if(data.bonusPirates<maxP)updateField(name,'bonusPirates',data.bonusPirates+1);}},'+'))); bs.appendChild(pi);if(maxP<MAX_PIRATES)bs.appendChild(h('div',{className:'limit-hint'},'Max '+maxP+' pirate'+(maxP>1?'s':'')+' dispo'));
+      const mi=h('div',{className:'bonus-item'});mi.appendChild(h('span',null,'🧜‍♀️ Sirènes capturées'));mi.appendChild(h('div',{className:'counter-row'},h('button',{className:'counter-btn-xs',onClick:()=>updateField(name,'bonusMermaids',Math.max(0,data.bonusMermaids-1))},'−'),h('span',{className:'counter-value-xs'},''+data.bonusMermaids),h('button',{className:'counter-btn-xs',disabled:data.bonusMermaids>=maxM,onClick:()=>{if(data.bonusMermaids<maxM)updateField(name,'bonusMermaids',data.bonusMermaids+1);}},'+'))); bs.appendChild(mi);if(maxM<MAX_MERMAIDS)bs.appendChild(h('div',{className:'limit-hint'},'Max '+maxM+' sirène'+(maxM>1?'s':'')+' dispo'));
+      const skCls=data.bonusSkullKing?'active':skAv?'available':'unavailable';const skTxt='💀 Skull King capturé'+(!skAv&&!data.bonusSkullKing?' (déjà pris)':'');bs.appendChild(h('div',{className:'bonus-toggle '+skCls,style:'margin-top:10px',onClick:()=>{if(data.bonusSkullKing)updateField(name,'bonusSkullKing',false);else if(skAv)updateField(name,'bonusSkullKing',true);}},skTxt));card.appendChild(bs);}
+    card.appendChild(h('button',{className:'primary-btn',style:'margin-top:14px',disabled:!canS,onClick:()=>submitPlayer(name)},'⚓ Valider'));app.appendChild(card);
   });
-
-  if (allSub) {
-    const txt = state.currentRound < TOTAL_ROUNDS ? 'Manche suivante →' : 'Voir les résultats 🏆';
-    app.appendChild(h('button', {className:'next-round-btn', onClick: nextRound}, txt));
-  }
+  if(allSub){const txt=state.currentRound<TOTAL_ROUNDS?'Manche suivante  ⚔️':'Voir les résultats  🏆';app.appendChild(h('button',{className:'next-round-btn',onClick:nextRound},txt));}
 }
-
 render();
 </script>
 </body>
